@@ -1,0 +1,25 @@
+{
+  "name": "mailbot",
+  "version": "1.0.0",
+  "description": "Telegram MailBot untuk buat dan hapus mail",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "node-telegram-bot-api": "^0.61.0",
+    "axios": "^1.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "keywords": [
+    "telegram",
+    "bot",
+    "mail"
+  ],
+  "author": "nand",
+  "license": "MIT"
+}
